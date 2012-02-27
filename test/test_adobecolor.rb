@@ -13,13 +13,13 @@
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../lib") if __FILE__ == $0
 require 'test/unit'
-require 'color'
-require 'color/palette/adobecolor'
+require 'spectrum'
+require 'spectrum/palette/adobecolor'
 
 module TestColor
   module TestPalette
     class TestAdobeColor < Test::Unit::TestCase
-      include Color::Palette
+      include Spectrum::Palette
 
       # This is based on the Visibone Anglo-Centric Color Code List; this is
       # an Adobe Color swatch version 1 (RGB colours only).
@@ -339,7 +339,7 @@ QwBNAFkASwAAAA0JxA2sEZQF3AAAAAsAVQBOAEsATgBPAFcATgAgADEAMwAA
         assert_equal(216, @aco.size)
         assert_equal(1, @aco.version)
         assert_equal({:rgb => 216}, @aco.statistics)
-        assert_equal(Color::RGB::White, @aco[0])
+        assert_equal(Spectrum::RGB::White, @aco[0])
         assert_equal("#ff0033", @aco[-1].html)
         assert_equal(v1, @aco.to_aco)
       end
@@ -350,8 +350,8 @@ QwBNAFkASwAAAA0JxA2sEZQF3AAAAAsAVQBOAEsATgBPAFcATgAgADEAMwAA
         assert_equal(216, @aco.size)
         assert_equal(2, @aco.version)
         assert_equal({:rgb => 216}, @aco.statistics)
-        assert_equal(Color::RGB::White, @aco[0])
-        assert_equal(Color::RGB::White,
+        assert_equal(Spectrum::RGB::White, @aco[0])
+        assert_equal(Spectrum::RGB::White,
                      @aco["\000W\000h\000i\000t\000e"][0])
         assert_equal("#ff0033", @aco[-1].html)
         assert_equal("#ff0033",
@@ -391,7 +391,7 @@ QwBNAFkASwAAAA0JxA2sEZQF3AAAAAsAVQBOAEsATgBPAFcATgAgADEAMwAA
       def test_each
         v1 = VISIBONE_V1.unpack("m*")[0]
         @aco = AdobeColor.new(v1)
-        @aco.each { |c| assert_kind_of(Color::RGB, c) }
+        @aco.each { |c| assert_kind_of(Spectrum::RGB, c) }
       end
 
       def test_each_name
@@ -402,7 +402,7 @@ QwBNAFkASwAAAA0JxA2sEZQF3AAAAAsAVQBOAEsATgBPAFcATgAgADEAMwAA
         @aco.each_name do |n, s|
           assert_equal(0, n[0]) if RUBY_VERSION < "1.9"
           assert_equal(1, s.size)
-          assert_kind_of(Color::RGB, s[0])
+          assert_kind_of(Spectrum::RGB, s[0])
         end
       end
 
@@ -411,7 +411,7 @@ QwBNAFkASwAAAA0JxA2sEZQF3AAAAAsAVQBOAEsATgBPAFcATgAgADEAMwAA
         assert_nothing_raised { @aco = AdobeColor.new(v2) }
         assert_equal(216, @aco.size)
         assert_equal(2, @aco.version)
-        assert_equal([Color::RGB::White, Color::RGB.from_html("#ff0033")],
+        assert_equal([Spectrum::RGB::White, Spectrum::RGB.from_html("#ff0033")],
                      @aco.values_at(0, -1))
       end
     end

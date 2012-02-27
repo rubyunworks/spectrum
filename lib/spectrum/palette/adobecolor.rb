@@ -1,5 +1,5 @@
 #--
-# Color
+# Spectrum
 # Colour management with Ruby
 # http://rubyforge.org/projects/color
 #   Version 1.4.1
@@ -10,7 +10,7 @@
 # Copyright (c) 2005 - 2010 Austin Ziegler and Matt Lyon
 #++
 
-require 'color/palette'
+require 'spectrum/palette'
 
 # A class that can read an Adobe Color palette file (used for Photoshop
 # swatches) and provide a Hash-like interface to the contents. Not all
@@ -20,27 +20,27 @@ require 'color/palette'
 # Not all Adobe Color files have named colours; all named entries are
 # returned as an array.
 #
-#   pal = Color::Palette::AdobeColor.from_file(my_aco_palette)
-#   pal[0]          => Color::RGB<...>
-#   pal["white"]    => [ Color::RGB<...> ]
-#   pal["unknown"]  => [ Color::RGB<...>, Color::RGB<...>, ... ]
+#   pal = Spectrum::Palette::AdobeColor.from_file(my_aco_palette)
+#   pal[0]          => Spectrum::RGB<...>
+#   pal["white"]    => [ Spectrum::RGB<...> ]
+#   pal["unknown"]  => [ Spectrum::RGB<...>, Spectrum::RGB<...>, ... ]
 #
 # AdobeColor palettes are always indexable by insertion order (an integer
 # key).
 #
 # Version 2 palettes use UTF-16 colour names.
-class Color::Palette::AdobeColor
+class Spectrum::Palette::AdobeColor
   include Enumerable
 
   class << self
     # Create an AdobeColor palette object from the named file.
     def from_file(filename)
-      File.open(filename, "rb") { |io| Color::Palette::AdobeColor.from_io(io) }
+      File.open(filename, "rb") { |io| Spectrum::Palette::AdobeColor.from_io(io) }
     end
 
     # Create an AdobeColor palette object from the provided IO.
     def from_io(io)
-      Color::Palette::AdobeColor.new(io.read)
+      Spectrum::Palette::AdobeColor.new(io.read)
     end
   end
 
@@ -102,7 +102,7 @@ class Color::Palette::AdobeColor
               when 0 then # RGB
                 @statistics[:rgb] += 1
 
-                Color::RGB.new(w / 256, x / 256, y / 256)
+                Spectrum::RGB.new(w / 256, x / 256, y / 256)
               when 1 then # HS[BV] -- Convert to RGB
                 @statistics[:hsb] += 1
 
@@ -110,14 +110,14 @@ class Color::Palette::AdobeColor
                 s = x / 65535.0
                 v = y / 65535.0
 
-                if defined?(Color::HSB)
-                  Color::HSB.from_fraction(h, s, v)
+                if defined?(Spectrum::HSB)
+                  Spectrum::HSB.from_fraction(h, s, v)
                 else
                   @statistics[:converted] += 1
-                  if Color.near_zero_or_less?(s)
-                    Color::RGB.from_fraction(v, v, v)
+                  if Spectrum.near_zero_or_less?(s)
+                    Spectrum::RGB.from_fraction(v, v, v)
                   else
-                    if Color.near_one_or_more?(h)
+                    if Spectrum.near_one_or_more?(h)
                       vh = 0
                     else
                       vh = h * 6.0
@@ -129,18 +129,18 @@ class Color::Palette::AdobeColor
                     v3 = v.to_f * (1 - s.to_f * (1 - (vh - vi)))
 
                     case vi
-                    when 0 then Color::RGB.from_fraction(v, v3, v1)
-                    when 1 then Color::RGB.from_fraction(v2, v, v1)
-                    when 2 then Color::RGB.from_fraction(v1, v, v3)
-                    when 3 then Color::RGB.from_fraction(v1, v2, v)
-                    when 4 then Color::RGB.from_fraction(v3, v1, v)
-                    else Color::RGB.from_fraction(v, v1, v2)
+                    when 0 then Spectrum::RGB.from_fraction(v, v3, v1)
+                    when 1 then Spectrum::RGB.from_fraction(v2, v, v1)
+                    when 2 then Spectrum::RGB.from_fraction(v1, v, v3)
+                    when 3 then Spectrum::RGB.from_fraction(v1, v2, v)
+                    when 4 then Spectrum::RGB.from_fraction(v3, v1, v)
+                    else Spectrum::RGB.from_fraction(v, v1, v2)
                     end
                   end
                 end
               when 2 then # CMYK
                 @statistics[:cmyk] += 1
-                Color::CMYK.from_percent(100 - (w / 655.35),
+                Spectrum::CMYK.from_percent(100 - (w / 655.35),
                                          100 - (x / 655.35),
                                          100 - (y / 655.35),
                                          100 - (z / 655.35))
@@ -151,8 +151,8 @@ class Color::Palette::AdobeColor
                 a = [[-12800, UwToSw[x]].max, 12700].min / 100.0
                 b = [[-12800, UwToSw[x]].max, 12700].min / 100.0
 
-                if defined? Color::Lab
-                  Color::Lab.new(l, a, b)
+                if defined? Spectrum::Lab
+                  Spectrum::Lab.new(l, a, b)
                 else
                   [ space, w, x, y, z ]
                 end
@@ -160,7 +160,7 @@ class Color::Palette::AdobeColor
                 @statistics[:gray] += 1
 
                 g = [w, 10000].min / 100.0
-                Color::GrayScale.new(g)
+                Spectrum::GrayScale.new(g)
               when 9 then # Wide CMYK
                 @statistics[:wcmyk] += 1
 
@@ -168,7 +168,7 @@ class Color::Palette::AdobeColor
                 m = [x, 10000].min / 100.0
                 y = [y, 10000].min / 100.0
                 k = [z, 10000].min / 100.0
-                Color::CMYK.from_percent(c, m, y, k)
+                Spectrum::CMYK.from_percent(c, m, y, k)
               else
                 @statistics[space] += 1
                 [ space, w, x, y, z ]
@@ -235,15 +235,15 @@ class Color::Palette::AdobeColor
       cstr = case color
              when Array
                color
-             when Color::RGB
+             when Spectrum::RGB
                r = [(color.red * 256).round, 65535].min
                g = [(color.green * 256).round, 65535].min
                b = [(color.blue * 256).round, 65535].min
                [ 0, r, g, b, 0 ]
-             when Color::GrayScale
+             when Spectrum::GrayScale
                g = [(color.gray * 100).round, 10000].min
                [ 8, g, 0, 0, 0 ]
-             when Color::CMYK
+             when Spectrum::CMYK
                c = [(color.cyan * 100).round, 10000].min
                m = [(color.magenta * 100).round, 10000].min
                y = [(color.yellow * 100).round, 10000].min

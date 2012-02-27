@@ -10,7 +10,7 @@
 # Copyright (c) 2005 - 2010 Austin Ziegler and Matt Lyon
 #++
 
-require 'color/palette'
+require 'spectrum/palette'
 
 # Generates a monochromatic constrasting colour palette for background and
 # foreground. What does this mean?
@@ -23,7 +23,7 @@ require 'color/palette'
 # palette; however, all generated colours are tested to see that they are
 # appropriately contrasting to ensure maximum readability of the foreground
 # against the background.
-class Color::Palette::MonoContrast
+class Spectrum::Palette::MonoContrast
   # Hash of CSS background colour values.
   # 
   # This is always 11 values:

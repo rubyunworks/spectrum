@@ -1,0 +1,31 @@
+name     "spectrum"
+version  "0.0.1"
+
+title   "Spectrum"
+summary "Colour management with Ruby"
+
+description "Color is a Ruby library to provide basic RGB, CMYK, HSL, and other colourspace " \
+            "manipulation support to applications that require it. It also provides 152 " \
+            "named RGB colours (184 with spelling variations) that are commonly supported " \
+            "in HTML, SVG, and X11 applications. A technique for generating monochromatic " \
+            "contrasting palettes is also included."
+
+resources "home" => "http://rubyworks.github.com/spectrum",
+          "code" => "http://github.com/rubyworks/spectrum",
+          "fork" => "http://github.com/halostatue/color"
+
+requirements [
+  'detroit (build)',
+  'mast    (build)'
+]
+
+authors [
+  "Austin Ziegler<austin@rubyforge.org>",
+  "Matt Lyon <matt@postsomnia.com>"
+]
+
+copyrights [
+  "(c) 2005 Austin Ziegler (BSD-3-Clause)",
+  "(c) 2005 Matt Lyon      (BSD-3-Clause)"
+]
+

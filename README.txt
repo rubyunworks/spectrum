@@ -1,4 +1,7 @@
-= Color
+= Spectrun
+
+Spectrum is a fork of the Color library.
+
 Color is a Ruby library to provide basic RGB, CMYK, HSL, and other colourspace
 manipulation support to applications that require it. It also provides 152
 named RGB colours (184 with spelling variations) that are commonly supported

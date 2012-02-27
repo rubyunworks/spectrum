@@ -11,12 +11,12 @@
 #++
 
 # A colour object representing YIQ (NTSC) colour encoding.
-class Color::YIQ
+class Spectrum::YIQ
   # Creates a YIQ colour object from fractional values 0 .. 1.
   #
-  #   Color::YIQ.new(0.3, 0.2, 0.1)
+  #   Spectrum::YIQ.new(0.3, 0.2, 0.1)
   def self.from_fraction(y = 0, i = 0, q = 0)
-    color = Color::YIQ.new
+    color = Spectrum::YIQ.new
     color.y = y
     color.i = i
     color.q = q
@@ -25,7 +25,7 @@ class Color::YIQ
 
   # Creates a YIQ colour object from percentages 0 .. 100.
   #
-  #   Color::YIQ.new(10, 20, 30)
+  #   Spectrum::YIQ.new(10, 20, 30)
   def initialize(y = 0, i = 0, q = 0)
     @y = y / 100.0
     @i = i / 100.0
@@ -41,10 +41,10 @@ class Color::YIQ
   # other.
   def ==(other)
     other = other.to_yiq
-    other.kind_of?(Color::YIQ) and
-    ((@y - other.y).abs <= Color::COLOR_TOLERANCE) and
-    ((@i - other.i).abs <= Color::COLOR_TOLERANCE) and
-    ((@q - other.q).abs <= Color::COLOR_TOLERANCE) 
+    other.kind_of?(Spectrum::YIQ) and
+    ((@y - other.y).abs <= Spectrum::COLOR_TOLERANCE) and
+    ((@i - other.i).abs <= Spectrum::COLOR_TOLERANCE) and
+    ((@q - other.q).abs <= Spectrum::COLOR_TOLERANCE) 
   end
 
   def to_yiq
@@ -55,7 +55,7 @@ class Color::YIQ
     @y
   end
   def to_grayscale
-    Color::GrayScale.new(@y)
+    Spectrum::GrayScale.new(@y)
   end
   alias to_greyscale to_grayscale
 

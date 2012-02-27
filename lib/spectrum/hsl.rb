@@ -13,11 +13,11 @@
 # An HSL colour object. Internally, the hue (#h), saturation (#s), and
 # luminosity/lightness (#l) values are dealt with as fractional values in
 # the range 0..1.
-class Color::HSL
+class Spectrum::HSL
   class << self
     # Creates an HSL colour object from fractional values 0..1.
     def from_fraction(h = 0.0, s = 0.0, l = 0.0)
-      colour = Color::HSL.new
+      colour = Spectrum::HSL.new
       colour.h = h
       colour.s = s
       colour.l = l
@@ -30,14 +30,14 @@ class Color::HSL
   # colour and a non-HSL colour will be approximate and based on the other
   # colour's #to_hsl conversion. If there is no #to_hsl conversion, this
   # will raise an exception. This will report that two HSL values are
-  # equivalent if all component values are within Color::COLOR_TOLERANCE of
+  # equivalent if all component values are within Spectrum::COLOR_TOLERANCE of
   # each other.
   def ==(other)
     other = other.to_hsl
-    other.kind_of?(Color::HSL) and
-    ((@h - other.h).abs <= Color::COLOR_TOLERANCE) and
-    ((@s - other.s).abs <= Color::COLOR_TOLERANCE) and
-    ((@l - other.l).abs <= Color::COLOR_TOLERANCE)
+    other.kind_of?(Spectrum::HSL) and
+    ((@h - other.h).abs <= Spectrum::COLOR_TOLERANCE) and
+    ((@s - other.s).abs <= Spectrum::COLOR_TOLERANCE) and
+    ((@l - other.l).abs <= Spectrum::COLOR_TOLERANCE)
   end
 
   # Creates an HSL colour object from the standard values of degrees and
@@ -89,9 +89,9 @@ class Color::HSL
   #   of grey and is based only on the luminosity of the colour.
   #
   def to_rgb(ignored = nil)
-    return Color::RGB.new if Color.near_zero_or_less?(@l)
-    return Color::RGB.new(0xff, 0xff, 0xff) if Color.near_one_or_more?(@l)
-    return Color::RGB.from_fraction(@l, @l, @l) if Color.near_zero?(@s)
+    return Spectrum::RGB.new if Color.near_zero_or_less?(@l)
+    return Spectrum::RGB.new(0xff, 0xff, 0xff) if Color.near_one_or_more?(@l)
+    return Spectrum::RGB.from_fraction(@l, @l, @l) if Color.near_zero?(@s)
 
     # Is the value less than 0.5?
     if Color.near_zero_or_less?(@l - 0.5)
@@ -118,7 +118,7 @@ class Color::HSL
       end
     }
 
-     Color::RGB.from_fraction(*rgb)
+     Spectrum::RGB.from_fraction(*rgb)
   end
 
   # Converts to RGB then YIQ.
@@ -136,7 +136,7 @@ class Color::HSL
     @l
   end
   def to_greyscale
-    Color::GrayScale.from_fraction(@l)
+    Spectrum::GrayScale.from_fraction(@l)
   end
   alias to_grayscale to_greyscale
 
@@ -209,7 +209,7 @@ class Color::HSL
   # Mix the mask colour (which will be converted to an HSL colour) with the
   # current colour at the stated mix percentage as a decimal value.
   #
-  # NOTE::  This differs from Color::RGB#mix_with.
+  # NOTE::  This differs from Spectrum::RGB#mix_with.
   def mix_with(color, mix_percent = 0.5)
     color   = color.to_hsl
     _h = ((color.h - self.h) * mix_percent) + self.h

@@ -10,7 +10,7 @@
 # Copyright (c) 2005 - 2010 Austin Ziegler and Matt Lyon
 #++
 
-require 'color/palette'
+require 'spectrum/palette'
 
 # A class that can read a GIMP (GNU Image Manipulation Program) palette file
 # and provide a Hash-like interface to the contents. GIMP colour palettes
@@ -19,24 +19,24 @@ require 'color/palette'
 # Because two or more entries in a GIMP palette may have the same name, all
 # named entries are returned as an array.
 #
-#   pal = Color::Palette::Gimp.from_file(my_gimp_palette)
-#   pal[0]          => Color::RGB<...>
-#   pal["white"]    => [ Color::RGB<...> ]
-#   pal["unknown"]  => [ Color::RGB<...>, Color::RGB<...>, ... ]
+#   pal = Spectrum::Palette::Gimp.from_file(my_gimp_palette)
+#   pal[0]          => Spectrum::RGB<...>
+#   pal["white"]    => [ Spectrum::RGB<...> ]
+#   pal["unknown"]  => [ Spectrum::RGB<...>, Spectrum::RGB<...>, ... ]
 #
 # GIMP Palettes are always indexable by insertion order (an integer key).
-class Color::Palette::Gimp
+class Spectrum::Palette::Gimp
   include Enumerable
 
   class << self
     # Create a GIMP palette object from the named file.
     def from_file(filename)
-      File.open(filename, "rb") { |io| Color::Palette::Gimp.from_io(io) }
+      File.open(filename, "rb") { |io| Spectrum::Palette::Gimp.from_io(io) }
     end
 
     # Create a GIMP palette object from the provided IO.
     def from_io(io)
-      Color::Palette::Gimp.new(io.read)
+      Spectrum::Palette::Gimp.new(io.read)
     end
   end
 
@@ -69,7 +69,7 @@ class Color::Palette::Gimp
       name = data.pop.strip
       data.map! { |el| el.to_i }
 
-      color = Color::RGB.new(*data)
+      color = Spectrum::RGB.new(*data)
 
       @colors << color
       @names[name] ||= []

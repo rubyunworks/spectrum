@@ -13,17 +13,17 @@
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../lib") if __FILE__ == $0
 require 'test/unit'
-require 'color'
-require 'color/css'
+require 'spectrum'
+require 'spectrum/css'
 
 module TestColor
   class TestCSS < Test::Unit::TestCase
     def test_index
-      assert_equal(Color::RGB::AliceBlue, Color::CSS[:aliceblue])
-      assert_equal(Color::RGB::AliceBlue, Color::CSS["AliceBlue"])
-      assert_equal(Color::RGB::AliceBlue, Color::CSS["aliceBlue"])
-      assert_equal(Color::RGB::AliceBlue, Color::CSS["aliceblue"])
-      assert_equal(Color::RGB::AliceBlue, Color::CSS[:AliceBlue])
+      assert_equal(Spectrum::RGB::AliceBlue, Spectrum::CSS[:aliceblue])
+      assert_equal(Spectrum::RGB::AliceBlue, Spectrum::CSS["AliceBlue"])
+      assert_equal(Spectrum::RGB::AliceBlue, Spectrum::CSS["aliceBlue"])
+      assert_equal(Spectrum::RGB::AliceBlue, Spectrum::CSS["aliceblue"])
+      assert_equal(Spectrum::RGB::AliceBlue, Spectrum::CSS[:AliceBlue])
     end
   end
 end

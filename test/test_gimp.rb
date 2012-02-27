@@ -13,13 +13,13 @@
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../lib") if __FILE__ == $0
 require 'test/unit'
-require 'color'
-require 'color/palette/gimp'
+require 'spectrum'
+require 'spectrum/palette/gimp'
 
 module TestColor
   module TestPalette
     class TestGimp < Test::Unit::TestCase
-      include Color::Palette
+      include Spectrum::Palette
 
       GIMP_W3C = <<-EOS
 GIMP Palette
@@ -58,7 +58,7 @@ Columns: 2
       def test_each
         @gimp = Gimp.new(GIMP_W3C)
         assert_equal(16, @gimp.instance_variable_get(:@colors).size)
-        @gimp.each { |c| assert_kind_of(Color::RGB, c) }
+        @gimp.each { |c| assert_kind_of(Spectrum::RGB, c) }
       end
 
       def test_each_name
@@ -68,7 +68,7 @@ Columns: 2
         @gimp.each_name { |color_name, color_set|
           assert_kind_of(Array, color_set)
           color_set.each { |c|
-            assert_kind_of(Color::RGB, c)
+            assert_kind_of(Spectrum::RGB, c)
           }
         }
       end
@@ -80,9 +80,9 @@ Columns: 2
           end
         end
         assert_nothing_raised { @gimp = Gimp.from_file(@filename) }
-        assert_equal(Color::RGB::White, @gimp[0])
-        assert_equal(Color::RGB::White, @gimp["White"][0])
-        assert_equal([Color::RGB::White, Color::RGB::Black],
+        assert_equal(Spectrum::RGB::White, @gimp[0])
+        assert_equal(Spectrum::RGB::White, @gimp["White"][0])
+        assert_equal([Spectrum::RGB::White, Spectrum::RGB::Black],
                      @gimp.values_at(0, -1))
         assert_equal(16, @gimp.size)
       end

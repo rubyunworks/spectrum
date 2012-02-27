@@ -12,7 +12,7 @@
 
 # A colour object representing shades of grey. Used primarily in PDF
 # document creation.
-class Color::GrayScale
+class Spectrum::GrayScale
   # The format of a DeviceGrey colour for PDF. In color-tools 2.0 this will
   # be removed from this package and added back as a modification by the
   # PDF::Writer package.
@@ -20,23 +20,23 @@ class Color::GrayScale
 
   # Creates a greyscale colour object from fractional values 0..1.
   #
-  #   Color::GreyScale.from_fraction(0.5)
+  #   Spectrum::GreyScale.from_fraction(0.5)
   def self.from_fraction(g = 0)
-    color = Color::GrayScale.new
+    color = Spectrum::GrayScale.new
     color.g = g
     color
   end
 
   # Creates a greyscale colour object from percentages 0..100.
   #
-  #   Color::GrayScale.from_percent(50)
+  #   Spectrum::GrayScale.from_percent(50)
   def self.from_percent(g = 0)
-    Color::GrayScale.new(g)
+    Spectrum::GrayScale.new(g)
   end
 
   # Creates a greyscale colour object from percentages 0..100.
   #
-  #   Color::GrayScale.new(50)
+  #   Spectrum::GrayScale.new(50)
   def initialize(g = 0)
     @g = g / 100.0
   end
@@ -50,8 +50,8 @@ class Color::GrayScale
   # COLOR_TOLERANCE of each other.
   def ==(other)
     other = other.to_grayscale
-    other.kind_of?(Color::GrayScale) and
-    ((@g - other.g).abs <= Color::COLOR_TOLERANCE)
+    other.kind_of?(Spectrum::GrayScale) and
+    ((@g - other.g).abs <= Spectrum::COLOR_TOLERANCE)
   end
 
   # Present the colour as a DeviceGrey fill colour string for PDF. This will
@@ -105,12 +105,12 @@ class Color::GrayScale
   # Convert the greyscale colour to CMYK.
   def to_cmyk
     k = 1.0 - @g.to_f
-    Color::CMYK.from_fraction(0, 0, 0, k)
+    Spectrum::CMYK.from_fraction(0, 0, 0, k)
   end
 
   # Convert the greyscale colour to RGB.
   def to_rgb(ignored = true)
-    Color::RGB.from_fraction(g, g, g)
+    Spectrum::RGB.from_fraction(g, g, g)
   end
 
   # Reflexive conversion.
@@ -122,13 +122,13 @@ class Color::GrayScale
   # Lightens the greyscale colour by the stated percent.
   def lighten_by(percent)
     g = [@g + (@g * (percent / 100.0)), 1.0].min
-    Color::GrayScale.from_fraction(g)
+    Spectrum::GrayScale.from_fraction(g)
   end
 
   # Darken the greyscale colour by the stated percent.
   def darken_by(percent)
     g = [@g - (@g * (percent / 100.0)), 0.0].max
-    Color::GrayScale.from_fraction(g)
+    Spectrum::GrayScale.from_fraction(g)
   end
 
   # Returns the YIQ (NTSC) colour encoding of the greyscale value. This is
@@ -139,12 +139,12 @@ class Color::GrayScale
     y = @g
     i = (@g * 0.596) + (@g * -0.275) + (@g * -0.321)
     q = (@g * 0.212) + (@g * -0.523) + (@g *  0.311)
-    Color::YIQ.from_fraction(y, i, q)
+    Spectrum::YIQ.from_fraction(y, i, q)
   end
 
   # Returns the HSL colour encoding of the greyscale value.
   def to_hsl
-    Color::HSL.from_fraction(0, 0, @g)
+    Spectrum::HSL.from_fraction(0, 0, @g)
   end
 
   # Returns the brightness value for this greyscale value; this is the
@@ -166,13 +166,13 @@ class Color::GrayScale
   end
   # Sets the grayscale value as a percentage of white.
   def gray=(gg)
-    @g = Color.normalize(gg / 100.0)
+    @g = Spectrum.normalize(gg / 100.0)
   end
   alias grey= gray= ;
   # Returns the grayscale value as a fractional value of white in the range
   # 0.0 .. 1.0.
   def g=(gg)
-    @g = Color.normalize(gg)
+    @g = Spectrum.normalize(gg)
   end
 
   # Adds another colour to the current colour. The other colour will be
@@ -206,7 +206,7 @@ class Color::GrayScale
   end
 end
 
-module Color
-  # A synonym for Color::GrayScale.
+module Spectrum
+  # A synonym for Spectrum::GrayScale.
   GreyScale = GrayScale
 end

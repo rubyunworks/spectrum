@@ -1,5 +1,5 @@
 #--
-# Color
+# Spectrum
 # Colour management with Ruby
 # http://rubyforge.org/projects/color
 #   Version 1.4.1
@@ -10,7 +10,7 @@
 # Copyright (c) 2005 - 2010 Austin Ziegler and Matt Lyon
 #++
 
-require 'color'
+require 'spectrum'
 
-module Color::Palette
+module Spectrum::Palette
 end
