@@ -1,8 +1,8 @@
-*.swp
-html
+.ergo/digest
+.yardoc
 doc
 pkg
-publish
-coverage
-coverage.info
-type-lists
+web
+*.lock
+*.gem
+*.swp

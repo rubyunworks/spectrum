@@ -1,0 +1,65 @@
+---
+revision: 2013
+type: ruby
+sources:
+- var
+authors:
+- name: Trans
+  email: transfire@gmail.com
+- name: Austin Ziegler
+  email: austin@rubyforge.org
+- name: Matt Lyon
+  email: matt@postsomnia.com
+organizations: []
+requirements:
+- groups:
+  - build
+  development: true
+  name: detroit
+- groups:
+  - build
+  development: true
+  name: mast
+conflicts: []
+alternatives: []
+resources:
+- type: home
+  uri: http://rubyworks.github.com/spectrum
+  label: Homepage
+- type: code
+  uri: http://github.com/rubyworks/spectrum
+  label: Source Code
+repositories:
+- name: upstream
+  scm: git
+  uri: git@github.com:rubyworks/spectrum.git
+- name: original
+  scm: git
+  uri: git@github.com:halostatue/color.git
+categories: []
+copyrights:
+- holder: Austin Ziegler
+  year: '2005'
+  license: BSD-3-Clause
+- holder: Matt Lyon
+  year: '2005'
+  license: BSD-3-Clause
+customs: []
+paths:
+  lib:
+  - lib
+summary: Color library for Ruby
+title: Spectrum
+version: 0.0.1
+name: spectrum
+description: ! 'Spectrum is a Ruby library to provide basic RGB, CMYK, HSL, and other
+  colourspace
+
+  manipulation support to applications that require it. It also provides 152
+
+  named RGB colours (184 with spelling variations) that are commonly supported
+
+  in HTML, SVG, and X11 applications. A technique for generating monochromatic
+
+  contrasting palettes is also included.'
+date: '2013-03-07'
